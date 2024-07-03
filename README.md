@@ -10,7 +10,12 @@ Information gathering
 
 ## Prerequisites
 
-Node.js
+- Node.js
+- add environments
+
+```
+VT_API_KEY=<your-virustotal-api-key>
+```
 
 ## Usage
 
