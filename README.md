@@ -1,12 +1,8 @@
 # grepcidr
 
----
-
 Information gathering
 
 ## Feature
-
----
 
 - check if IP is included in AWS-IP-Range
 - check IP information from VirusTotal
@@ -14,13 +10,9 @@ Information gathering
 
 ## Prerequisites
 
----
-
 Node.js
 
 ## Usage
-
----
 
 1. git clone
 2. npm install
