@@ -2,12 +2,14 @@
   "name": "grepcidr",
   "version": "1.0.0",
   "description": "---",
-  "main": "src/app.mjs",
+  "main": "./bin/cli.mjs",
   "type": "module",
-  "bin": "./bin/cli.mjs",
+  "bin": {
+    "grepcidr": "./bin/cli.mjs"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/app.mjs"
+    "start": "node ./bin/cli.mjs"
   },
   "keywords": [],
   "author": "",
