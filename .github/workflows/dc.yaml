@@ -21,12 +21,12 @@ jobs:
         with:
           name: dependency-check-report
           path: ${{github.workspace}}/reports
-      - name: Forward to Dependency-Track
-        env:
-          DTRACK_API_KEY: ${{ secrets.DTRACK_API_KEY }}
-          DTRACK_URL: "http://dtrack-dependency-track-api-server:8080"
-        run: |
-          curl -X PUT "$DTRACK_URL/api/v1/bom" \
-            -H "Content-Type: application/xml" \
-            -H "X-API-Key: $DTRACK_API_KEY" \
-            -d @${{github.workspace}}/reports/dependency-check-report.xml
+
+      - uses: DependencyTrack/gh-upload-sbom@v3.0.0
+        with:
+          serverHostname: "http://dtrack-dependency-track-api-server:8080"
+          apiKey: ${{ secrets.DTRACK_API_KEY }}
+          projectName: "grepcidr"
+          projectVersion: "master"
+          bomFilename: "${{github.workspace}}/reports/dependency-check-report.xml"
+          autoCreate: true
