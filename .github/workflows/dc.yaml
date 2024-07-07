@@ -41,4 +41,4 @@ jobs:
             -F 'project=grepcidr' \
             -F 'parentVersion=1.0.0' \
             -F 'autoCreate=true' \
-            -F 'bom=${{github.workspace}}reports/dependency-check-report.xml' && cat ${{github.workspace}}/reports/dependency-check-report.xml
+            -F 'bom=/github/workspace/reports/dependency-check-report.xml' && cat /github/workspace/reports/dependency-check-report.xml
