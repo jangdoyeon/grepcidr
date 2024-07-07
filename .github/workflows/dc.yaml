@@ -9,26 +9,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Dependency Check
-        uses: dependency-check/Dependency-Check_Action@main
+      - name: Generates BoM and upload to OWASP DTrack
+        id: riskscoreFromDT
+        uses: Quobis/action-owasp-dependecy-track-check@main
         with:
-          project: "grepcidr"
-          path: "."
-          format: "XML"
+          url: "http://dtrack-dependency-track-api-server:8080"
+          key: "${{ secrets.DTRACK_API_KEY }}"
+          language: "nodejs"
 
-      - name: Upload Dependency Check Report
-        uses: actions/upload-artifact@master
-        with:
-          name: dependency-check-report
-          path: ${{github.workspace}}/reports
-
-      - uses: DependencyTrack/gh-upload-sbom@v3.0.0
-        with:
-          serverHostname: "dtrack-dependency-track-api-server"
-          protocol: "http"
-          port: "8080"
-          apiKey: ${{ secrets.DTRACK_API_KEY }}
-          projectName: "grepcidr"
-          projectVersion: "master"
-          bomFilename: "${{github.workspace}}/reports/dependency-check-report.xml"
-          autoCreate: true
+      - name: Get the output time
+        run: echo "The risk score of the project is ${{ steps.riskscoreFromDT.outputs.riskscore }}"
