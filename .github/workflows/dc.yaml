@@ -39,7 +39,7 @@ jobs:
             -H 'accept: application/xml' \
             -H 'Content-Type: multipart/form-data' \
             -H "X-API-Key: ${DTRACK_API_KEY}" \
-            -F 'project=grepcidr' \
+            -F 'projectName=grepcidr' \
             -F 'parentVersion=1.0.0' \
             -F 'autoCreate=true' \
             -F 'bom=${{github.workspace}}/reports/dependency-check-report.xml'
