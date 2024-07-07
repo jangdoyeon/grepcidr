@@ -24,7 +24,9 @@ jobs:
 
       - uses: DependencyTrack/gh-upload-sbom@v3.0.0
         with:
-          serverHostname: "http://dtrack-dependency-track-api-server:8080"
+          serverHostname: "dtrack-dependency-track-api-server"
+          protocol: "http"
+          port: "8080"
           apiKey: ${{ secrets.DTRACK_API_KEY }}
           projectName: "grepcidr"
           projectVersion: "master"
