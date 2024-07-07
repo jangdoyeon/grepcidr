@@ -23,4 +23,4 @@ jobs:
           curl -X POST "${DTRACK_URL}/api/v1/bom" \
             -H "Content-Type: application/xml" \
             -H "X-API-Key: ${DTRACK_API_KEY}" \
-            -d @./reports/dependency-check-report.xml
+            -d @${{github.workspace}}/reports/dependency-check-report.xml
