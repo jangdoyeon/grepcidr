@@ -18,7 +18,7 @@ jobs:
       - name: Upload Dependency Check Report
         uses: actions/upload-artifact@v2
         with:
-          name: dependency-check-report
+          name: dependency-check-report.xml
           path: ${{github.workspace}}/reports
 
       - name: Upload to Dependency-Track
@@ -29,5 +29,7 @@ jobs:
           curl -X POST "${DTRACK_URL}/api/v1/bom" \
             -H "Content-Type: application/xml" \
             -H "X-API-Key: ${DTRACK_API_KEY}" \
+            -F 'project=grepcidr' \
+            -F 'parentVersion=1.0.0' \
             -F 'autoCreate=true' \
-            -F 'bom=reports/dependency-check-report.xml'
+            -F 'bom=reports/dependency-check-report.xml' && cat reports/dependency-check-report.xml
