@@ -30,4 +30,4 @@ jobs:
             -H "Content-Type: application/xml" \
             -H "X-API-Key: ${DTRACK_API_KEY}" \
             -F 'autoCreate=true' \
-            -F 'bom=${{github.workspace}}/reports/dependency-check-report.xml'
+            -F 'bom=reports/dependency-check-report.xml'
