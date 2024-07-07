@@ -21,7 +21,7 @@ jobs:
         uses: dependency-check/Dependency-Check_Action@main
         with:
           project: "grepcidr"
-          format: "JSON"
+          format: "XML"
 
       - name: Upload Dependency Check Report
         uses: actions/upload-artifact@v2
@@ -35,10 +35,10 @@ jobs:
           DTRACK_URL: "http://dtrack-dependency-track-api-server:8080"
         run: |
           curl -X POST "${DTRACK_URL}/api/v1/bom" \
-            -H 'accept: application/json' \
+            -H 'accept: application/xml' \
             -H 'Content-Type: multipart/form-data' \
             -H "X-API-Key: ${DTRACK_API_KEY}" \
             -F 'project=grepcidr' \
             -F 'parentVersion=1.0.0' \
             -F 'autoCreate=true' \
-            -F 'bom=reports/dependency-check-report.json' && cat reports/dependency-check-report.json
+            -F 'bom=${{github.workspace}}reports/dependency-check-report.xml' && cat ${{github.workspace}}/reports/dependency-check-report.xml
