@@ -29,4 +29,5 @@ jobs:
           curl -X POST "${DTRACK_URL}/api/v1/bom" \
             -H "Content-Type: application/xml" \
             -H "X-API-Key: ${DTRACK_API_KEY}" \
-            -d @$GITHUB_WORKSPACE/reports/dependency-check-report.xml
+            -F 'autoCreate=true' \
+            -F 'bom=${{github.workspace}}/reports/dependency-check-report.xml'
