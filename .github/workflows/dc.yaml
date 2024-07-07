@@ -9,6 +9,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
       - name: Run Dependency-Check
         uses: dependency-check/Dependency-Check_Action@main
         with:
