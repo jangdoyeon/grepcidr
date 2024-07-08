@@ -33,18 +33,18 @@ jobs:
           bomFilename: "./grepcidr.bom.xml"
           autoCreate: true
 
+      - name: Upload Dependency Check Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: grepcidr.bom.xml
+          path: ./
+
       #- name: Run Dependency-Check
       #  uses: dependency-check/Dependency-Check_Action@main
       #  with:
       #    project: "grepcidr"
       #    path: "."
       #    format: "XML"
-
-      #- name: Upload Dependency Check Report
-      #  uses: actions/upload-artifact@v2
-      #  with:
-      #    name: dependency-check-report.xml
-      #    path: ${{github.workspace}}/reports
 
       #- name: Upload to Dependency-Track
       #  env:
