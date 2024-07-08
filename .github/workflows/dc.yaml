@@ -17,29 +17,42 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run Dependency-Check
-        uses: dependency-check/Dependency-Check_Action@main
+      # Generates a BoM and uploads it to OWASP Dependency Track
+      - name: Generates BoM and upload to OWASP DTrack
+        id: riskscoreFromDT
+        uses: Quobis/action-owasp-dependecy-track-check@main
         with:
-          project: "grepcidr"
-          path: "."
-          format: "XML"
+          url: "http://dtrack-dependency-track-api-server:8080"
+          key: "${{ secrets.DTRACK_API_KEY }}"
+          language: "nodejs"
 
-      - name: Upload Dependency Check Report
-        uses: actions/upload-artifact@v2
-        with:
-          name: dependency-check-report.xml
-          path: ${{github.workspace}}/reports
+      # Show the risk score output
+      - name: Get the output time
+        run: echo "The risk score of the project is ${{ steps.riskscoreFromDT.outputs.riskscore }}"
 
-      - name: Upload to Dependency-Track
-        env:
-          DTRACK_API_KEY: ${{ secrets.DTRACK_API_KEY }}
-          DTRACK_URL: "http://dtrack-dependency-track-api-server:8080"
-        run: |
-          curl -X POST "${DTRACK_URL}/api/v1/bom" \
-            -H 'accept: application/xml' \
-            -H 'Content-Type: multipart/form-data' \
-            -H "X-API-Key: ${DTRACK_API_KEY}" \
-            -F 'projectName=grepcidr' \
-            -F 'parentVersion=1.0.0' \
-            -F 'autoCreate=true' \
-            -F 'bom=${{github.workspace}}/reports/dependency-check-report.xml'
+      #- name: Run Dependency-Check
+      #  uses: dependency-check/Dependency-Check_Action@main
+      #  with:
+      #    project: "grepcidr"
+      #    path: "."
+      #    format: "XML"
+
+      #- name: Upload Dependency Check Report
+      #  uses: actions/upload-artifact@v2
+      #  with:
+      #    name: dependency-check-report.xml
+      #    path: ${{github.workspace}}/reports
+
+      #- name: Upload to Dependency-Track
+      #  env:
+      #    DTRACK_API_KEY: ${{ secrets.DTRACK_API_KEY }}
+      #    DTRACK_URL: "http://dtrack-dependency-track-api-server:8080"
+      #  run: |
+      #    curl -X POST "${DTRACK_URL}/api/v1/bom" \
+      #      -H 'accept: application/xml' \
+      #      -H 'Content-Type: multipart/form-data' \
+      #      -H "X-API-Key: ${DTRACK_API_KEY}" \
+      #      -F 'projectName=grepcidr' \
+      #      -F 'parentVersion=1.0.0' \
+      #      -F 'autoCreate=true' \
+      #      -F 'bom=${{github.workspace}}/reports/dependency-check-report.xml'
