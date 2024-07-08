@@ -14,21 +14,12 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install dependencies
-        run: npm install
-
-      # Generates a BoM and uploads it to OWASP Dependency Track
-      - name: Generates BoM and upload to OWASP DTrack
-        id: riskscoreFromDT
-        uses: Quobis/action-owasp-dependecy-track-check@main
+      - name: Dependency-Check
+        uses: dependency-check/Dependency-Check_Action@main
         with:
-          url: "http://dtrack-dependency-track-api-server:8080"
-          key: "${{ secrets.DTRACK_API_KEY }}"
-          language: "nodejs"
-
-      # Show the risk score output
-      - name: Get the output time
-        run: echo "The risk score of the project is ${{ steps.riskscoreFromDT.outputs.riskscore }}"
+          project: "grepcidr"
+          format: "CycloneDX"
+          out: "."
 
       #- name: Run Dependency-Check
       #  uses: dependency-check/Dependency-Check_Action@main
