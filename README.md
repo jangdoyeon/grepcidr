@@ -4,8 +4,8 @@ Information gathering
 
 ## Feature
 
-- check if IP is included in AWS-IP-Range
-- check IP information from VirusTotal
+- check if IP is included in `AWS IP Range`
+- check IP, Domain information from `VirusTotal`
 - check if IP is included in CIDR
 
 ## Prerequisites

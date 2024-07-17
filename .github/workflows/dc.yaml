@@ -1,0 +1,40 @@
+name: Dependency Track
+
+on: [push]
+
+jobs:
+  dependency-check:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      #- run: npm install
+
+      - name: Create SBOM with CycloneDX
+        uses: CycloneDX/gh-node-module-generatebom@v1
+        with:
+          output: "./grepcidr.bom.xml"
+
+      - name: SBOM zu DependencyTrack senden
+        uses: DependencyTrack/gh-upload-sbom@v3.0.0
+        with:
+          protocol: "http"
+          serverHostname: "dtrack-dependency-track-api-server"
+          port: "8080"
+          apiKey: ${{ secrets.DTRACK_API_KEY }}
+          projectName: "grepcidr"
+          projectVersion: "1.0.0"
+          bomFilename: "./grepcidr.bom.xml"
+          autoCreate: true
+
+      - name: Upload Test results
+        uses: actions/upload-artifact@master
+        with:
+          name: Depcheck report
+          path: ${{github.workspace}}/reports
