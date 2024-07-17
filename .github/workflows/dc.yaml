@@ -1,4 +1,4 @@
-name: Dependency Check
+name: Dependency Track
 
 on: [push]
 
@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: "20"
 
-      - run: npm install
+      #- run: npm install
 
       - name: Create SBOM with CycloneDX
         uses: CycloneDX/gh-node-module-generatebom@v1
@@ -33,38 +33,8 @@ jobs:
           bomFilename: "./grepcidr.bom.xml"
           autoCreate: true
 
-      - name: Depcheck
-        uses: dependency-check/Dependency-Check_Action@main
-        id: Depcheck
-        with:
-          project: "grepcidr-check"
-          path: "."
-          format: "HTML"
-          out: "reports" # this is the default, no need to specify unless you wish to override it
-
       - name: Upload Test results
         uses: actions/upload-artifact@master
         with:
           name: Depcheck report
           path: ${{github.workspace}}/reports
-
-      #- name: Run Dependency-Check
-      #  uses: dependency-check/Dependency-Check_Action@main
-      #  with:
-      #    project: "grepcidr"
-      #    path: "."
-      #    format: "XML"
-
-      #- name: Upload to Dependency-Track
-      #  env:
-      #    DTRACK_API_KEY: ${{ secrets.DTRACK_API_KEY }}
-      #    DTRACK_URL: "http://dtrack-dependency-track-api-server:8080"
-      #  run: |
-      #    curl -X POST "${DTRACK_URL}/api/v1/bom" \
-      #      -H 'accept: application/xml' \
-      #      -H 'Content-Type: multipart/form-data' \
-      #      -H "X-API-Key: ${DTRACK_API_KEY}" \
-      #      -F 'projectName=grepcidr' \
-      #      -F 'parentVersion=1.0.0' \
-      #      -F 'autoCreate=true' \
-      #      -F 'bom=${{github.workspace}}/reports/dependency-check-report.xml'
